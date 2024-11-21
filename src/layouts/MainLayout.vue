@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title>
-          Publicenter calcular média
+          Calculadora
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
