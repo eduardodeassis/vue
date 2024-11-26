@@ -76,8 +76,13 @@ export default {
         this.resultado = parseFloat(this.valor1) / parseFloat(this.valor2);        
         console.log(this.valor1 + " / " + this.valor2 + " = " + this.resultado.toFixed(5));
       }
-      this.texto = this.resultado.toFixed(5);  
-      this.removeZeroDireita();
+      if ((parseFloat(this.valor2) == 0) && (this.operacao == '/')) {
+        this.texto = "Não é possível dividir por zero";
+      } 
+      else {      
+        this.texto = this.resultado.toFixed(5);  
+        this.removeZeroDireita();
+      }
     },
     digito(digitoBotao) {
       console.log("digitoBotao:"+digitoBotao);
