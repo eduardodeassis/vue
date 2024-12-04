@@ -71,29 +71,23 @@ export default {
       switch(operacaoSel) {
         case "+":           
           total = v1 + v2;
-          console.log("Adição:"+v1 + v2);
           break;
         case "-": 
           total = v1 - v2;
-          console.log("Subtração:"+total.toFixed(5));
           break;
         case "*": 
           total = v1 * v2;
-          console.log("Multiplicação:"+total.toFixed(5));
           break;
         case "/": 
           total = v1 / v2;
-          console.log("Divisão:"+total.toFixed(5));
           break;
         default:
-          total = 99999;
+          total = 0;
           break;
       }
-      console.log("operacaoSelecionada:"+operacaoSel);
       return total;
     },    
     digito(digitoBotao) { 
-      console.log("digitoBotao:"+digitoBotao);    
       if (digitoBotao == ".") {
         if (this.limpar == "S") {
           this.texto = "0.";
@@ -142,7 +136,6 @@ export default {
       }
     },
     operador(operadorBotao) {
-      console.log("operadorBotao:"+operadorBotao);
       if (operadorBotao == "!") {
         this.resultado = parseFloat(this.texto);
         this.resultado = -1 * this.resultado;
