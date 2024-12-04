@@ -7,21 +7,21 @@
         <q-btn label="7" type="button" color="primary" size="lg" @click="digito('7')" class="botao-padrao" />&nbsp;
         <q-btn label="8" type="button" color="primary" size="lg" @click="digito('8')" class="botao-padrao" />&nbsp;
         <q-btn label="9" type="button" color="primary" size="lg" @click=" digito('9')" class="botao-padrao" />&nbsp;
-        <q-btn label="/" type="button" color="primary" size="lg" @click="digito('/')" class="botao-padrao" /><br><br>
+        <q-btn label="/" type="button" color="primary" size="lg" @click="operador('/')" class="botao-padrao" /><br><br>
         <q-btn label="4" type="button" color="primary" size="lg" @click="digito('4')" class="botao-padrao" />&nbsp;
         <q-btn label="5" type="button" color="primary" size="lg" @click="digito('5')" class="botao-padrao" />&nbsp;
         <q-btn label="6" type="button" color="primary" size="lg" @click="digito('6')" class="botao-padrao" />&nbsp;
-        <q-btn label="*" type="button" color="primary" size="lg" @click="digito('*')" class="botao-padrao" /><br><br>
+        <q-btn label="*" type="button" color="primary" size="lg" @click="operador('*')" class="botao-padrao" /><br><br>
         <q-btn label="1" type="button" color="primary" size="lg" @click="digito('1')" class="botao-padrao" />&nbsp;
         <q-btn label="2" type="button" color="primary" size="lg" @click="digito('2')" class="botao-padrao" />&nbsp;
         <q-btn label="3" type="button" color="primary" size="lg" @click="digito('3')" class="botao-padrao" />&nbsp;
-        <q-btn label="-" type="button" color="primary" size="lg" @click="digito('-')" class="botao-padrao" /><br><br>
-        <q-btn label="+/-" type="button" color="primary" size="lg" @click="digito('!')" class="botao-padrao" />&nbsp;
+        <q-btn label="-" type="button" color="primary" size="lg" @click="operador('-')" class="botao-padrao" /><br><br>
+        <q-btn label="+/-" type="button" color="primary" size="lg" @click="operador('!')" class="botao-padrao" />&nbsp;
         <q-btn label="0" type="button" color="primary" size="lg" @click="digito('0')" class="botao-padrao" />&nbsp;
         <q-btn label="," type="button" color="primary" size="lg" @click="digito('.')" class="botao-padrao" />&nbsp;
-        <q-btn label="+" type="button" color="primary" size="lg" @click="digito('+')" class="botao-padrao" /><br><br>
-        <q-btn label="=" type="button" color="primary" size="lg" @click="digito('=')" class="botao-padrao-2x2" />&nbsp;
-        <q-btn label="Limpar" type="button" color="primary" size="lg" @click="limparTudo" class="botao-padrao-2x2" />
+        <q-btn label="+" type="button" color="primary" size="lg" @click="operador('+')" class="botao-padrao" /><br><br>
+        <q-btn label="Limpar" type="button" color="primary" size="lg" @click="limparTudo" class="botao-padrao-2x2" />&nbsp;
+        <q-btn label="=" type="button" color="primary" size="lg" @click="operador('=')" class="botao-padrao-2x2" />
 
         
     </div>
@@ -29,9 +29,9 @@
 </template>
 
 <script>
+
 export default {
   name: 'CalcularadoraPage',
-
   data () {
     return {
        // VARIAVEIS    42323232323
@@ -47,90 +47,66 @@ export default {
 
   methods: {
     // FUNCOES OU METODOS JAVASCRIPT
-    removeZeroDireita() {
-      this.tmp = this.texto;
-      if (this.tmp.includes(".")) {        
-        while (this.tmp.charAt(this.tmp.length-1)=="0") {
-          this.tmp = this.tmp.substring(0, this.tmp.length-1);
+    removeZeroDireita(valor) {
+      let tmp = valor;
+      if (tmp.includes(".")) {        
+        while (tmp.charAt(tmp.length-1)=="0") {
+          tmp = tmp.substring(0, tmp.length-1);
         }
-        if (this.tmp.charAt(this.tmp.length-1)==".") {
-          this.tmp = this.tmp.substring(0, this.tmp.length-1);        
+        if (tmp.charAt(tmp.length-1)==".") {
+          tmp = tmp.substring(0, tmp.length-1);        
         }
       }
-      this.texto = this.tmp;
+      return tmp;
     },
-    calcular() {
-      if (this.operacao == "+") {
-        this.resultado = parseFloat(this.valor1) + parseFloat(this.valor2);        
-        console.log(this.valor1 + " + " + this.valor2 + " = " + this.resultado.toFixed(5));
-      } 
-      else if (this.operacao == "-") {
-        this.resultado = parseFloat(this.valor1) - parseFloat(this.valor2);        
-        console.log(this.valor1 + " - " + this.valor2 + " = " + this.resultado.toFixed(5));
-      }
-      else if (this.operacao == "*") {
-        this.resultado = parseFloat(this.valor1) * parseFloat(this.valor2);        
-        console.log(this.valor1 + " * " + this.valor2 + " = " + this.resultado.toFixed(5));
-      }
-      else if (this.operacao == "/") {
-        this.resultado = parseFloat(this.valor1) / parseFloat(this.valor2);        
-        console.log(this.valor1 + " / " + this.valor2 + " = " + this.resultado.toFixed(5));
-      }
-      if ((parseFloat(this.valor2) == 0) && (this.operacao == '/')) {
-        this.texto = "Não é possível dividir por zero";
-      } 
-      else {      
-        this.texto = this.resultado.toFixed(5);  
-        this.removeZeroDireita();
-      }
+    limparTudo() {
+      this.texto = "0";
+      this.valor1 = 0;
+      this.valor2 = 0;
+      this.operacao = "";
+      this.limpar = "S";
     },
-    digito(digitoBotao) {
-      console.log("digitoBotao:"+digitoBotao);
-      if ((digitoBotao == "+") || (digitoBotao == "-") || (digitoBotao == "*") || (digitoBotao == "/") || (digitoBotao == "=")) {
-        if (digitoBotao == "=") {
-          if (!(this.operacao == "")) {   
-            this.valor2 = this.texto;       
-            this.calcular();
-          }
-          this.valor1 = 0;
-          this.operacao = "";
-          this.limpar = "S";
-        }
-        else {
-          if ((this.valor1 == 0) && (this.operacao == "")) {
-            this.valor1 = this.texto;
-            this.operacao = digitoBotao;
-            this.limpar = "S";
-          } 
-          else {
-            this.valor2 = this.texto;
-            this.calcular();
-            this.valor1 = this.texto;
-            this.operacao = digitoBotao;
-            this.limpar = "S";
-          }
-        }
+    calcular(v1, v2, operacaoSel) {            
+      let total;
+      switch(operacaoSel) {
+        case "+":           
+          total = v1 + v2;
+          console.log("Adição:"+v1 + v2);
+          break;
+        case "-": 
+          total = v1 - v2;
+          console.log("Subtração:"+total.toFixed(5));
+          break;
+        case "*": 
+          total = v1 * v2;
+          console.log("Multiplicação:"+total.toFixed(5));
+          break;
+        case "/": 
+          total = v1 / v2;
+          console.log("Divisão:"+total.toFixed(5));
+          break;
+        default:
+          total = 99999;
+          break;
       }
-      else { 
-        if (digitoBotao == "!") {
-          this.resultado = parseFloat(this.texto);
-          this.resultado = -1 * this.resultado;
-          this.texto = this.resultado.toFixed(5);
-          this.removeZeroDireita();
+      console.log("operacaoSelecionada:"+operacaoSel);
+      return total;
+    },    
+    digito(digitoBotao) { 
+      console.log("digitoBotao:"+digitoBotao);    
+      if (digitoBotao == ".") {
+        if (this.limpar == "S") {
+          this.texto = "0.";
+          this.limpar = "N";
         }
-        else if (digitoBotao == ".") {
-          if ((!(this.texto.includes("."))) || (this.limpar == "S")) {
-            if (this.limpar == "S") {
-              this.texto = "0.";
-              this.limpar = "N";
-            }
-            else {
-              this.texto += digitoBotao;    
-            } 
-
+        else {            
+          if (!(this.texto.includes("."))) {
+            this.texto += digitoBotao;            
           }          
-        }
-        else if (this.limpar == "S") {
+        }          
+      }
+      else {
+        if (this.limpar == "S") {
           this.texto = digitoBotao;
           this.limpar = "N";
         }
@@ -139,12 +115,57 @@ export default {
         }        
       }
     },    
-    limparTudo() {
-      this.texto = "0";
-      this.valor1 = 0;
-      this.valor2 = 0;
-      this.operacao = "";
-      this.limpar = "S";
+    preencheValor1(valor, operadorBotao){
+      if (!(operadorBotao == "=")) {
+        this.valor1 = valor;
+        this.operacao = operadorBotao;
+        this.limpar = "S";
+      } 
+      else {
+        this.operacao = "";
+        this.limpar = "N";
+      }
+    },
+    igual(valor) {
+      let resultado;
+      if (!(this.operacao == "")) {
+        this.valor2 = valor;
+        if ((this.valor2 == 0) && (this.operacao == '/')) {
+          resultado = "Não é possível dividir por zero"
+        }
+        else {          
+          resultado = this.removeZeroDireita(this.calcular(this.valor1, this.valor2, this.operacao).toFixed(5));          
+        }
+        this.limpar = "S";
+        this.operacao = "";
+        return resultado;
+      }
+    },
+    operador(operadorBotao) {
+      console.log("operadorBotao:"+operadorBotao);
+      if (operadorBotao == "!") {
+        this.resultado = parseFloat(this.texto);
+        this.resultado = -1 * this.resultado;
+        this.texto = this.removeZeroDireita(this.resultado.toFixed(5));        
+      }
+      else {
+        if (this.texto.includes("Não") && this.texto.includes("zero")) {
+          this.texto = "0";
+          this.limpar = "N";
+        }
+        if (this.operacao == "") {
+          this.preencheValor1(parseFloat(this.texto), operadorBotao);
+        }
+        else {          
+          if (this.operacao == "=") {
+            this.texto = this.igual(parseFloat(this.texto));            
+          }
+          else {            
+            this.texto = this.igual(parseFloat(this.texto));            
+            this.preencheValor1(parseFloat(this.texto), operadorBotao);
+          }  
+        }       
+      }
     }
   },
 
