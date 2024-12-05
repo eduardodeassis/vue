@@ -1,9 +1,11 @@
 <template>
-  <q-page class="flex justify-center">
-    <div>
+  <q-page>
+    <q-card>
+      <q-card-section> 
         <h4>Calculadora</h4> 
-        
+      
         <q-input v-model="texto" outlined readonly class="text-right" /><br><br>
+
         <q-btn label="7" type="button" color="primary" size="lg" @click="digito('7')" class="botao-padrao" />&nbsp;
         <q-btn label="8" type="button" color="primary" size="lg" @click="digito('8')" class="botao-padrao" />&nbsp;
         <q-btn label="9" type="button" color="primary" size="lg" @click=" digito('9')" class="botao-padrao" />&nbsp;
@@ -22,15 +24,24 @@
         <q-btn label="+" type="button" color="primary" size="lg" @click="operador('+')" class="botao-padrao" /><br><br>
         <q-btn label="Limpar" type="button" color="primary" size="lg" @click="limparTudo" class="botao-padrao-2x2" />&nbsp;
         <q-btn label="=" type="button" color="primary" size="lg" @click="operador('=')" class="botao-padrao-2x2" />
-
         
-    </div>
+        
+      </q-card-section>
+
+      <q-card-section>
+        
+      </q-card-section>
+        
+    </q-card>
+
   </q-page>
 </template>
 
 <script>
-
+// import PBotao from './componentes/pBotao.vue'
 export default {
+
+
   name: 'CalcularadoraPage',
   data () {
     return {
@@ -48,6 +59,7 @@ export default {
   methods: {
     // FUNCOES OU METODOS JAVASCRIPT
     removeZeroDireita(valor) {
+      this.$refs
       let tmp = valor;
       if (tmp.includes(".")) {        
         while (tmp.charAt(tmp.length-1)=="0") {
@@ -66,29 +78,18 @@ export default {
       this.operacao = "";
       this.limpar = "S";
     },
-    calcular(v1, v2, operacaoSel) {            
-      let total;
-      switch(operacaoSel) {
-        case "+":           
-          total = v1 + v2;
-          break;
-        case "-": 
-          total = v1 - v2;
-          break;
-        case "*": 
-          total = v1 * v2;
-          break;
-        case "/": 
-          total = v1 / v2;
-          break;
-        default:
-          total = 0;
-          break;
+     calcular(valor1, valor2, operacaoClicada) {
+      let operacao = {
+        '+': (valor1, valor2) => valor1 + valor2,
+        '-': (valor1, valor2) => valor1 - valor2,
+        '*': (valor1, valor2) => valor1 * valor2,
+        '/': (valor1, valor2) => valor1 / valor2
       }
-      return total;
-    },    
+
+      return operacao[operacaoClicada](valor1, valor2)
+    },
     digito(digitoBotao) { 
-      if (digitoBotao == ".") {
+      if (digitoBotao === ".") {
         if (this.limpar == "S") {
           this.texto = "0.";
           this.limpar = "N";
@@ -110,7 +111,7 @@ export default {
       }
     },    
     preencheValor1(valor, operadorBotao){
-      if (!(operadorBotao == "=")) {
+      if (operadorBotao !== valor) {
         this.valor1 = valor;
         this.operacao = operadorBotao;
         this.limpar = "S";
@@ -122,13 +123,14 @@ export default {
     },
     igual(valor) {
       let resultado;
-      if (!(this.operacao == "")) {
+      if (!(this.operacao === "")) {
         this.valor2 = valor;
-        if ((this.valor2 == 0) && (this.operacao == '/')) {
+        if (this.valor2 == 0 && this.operacao == '/') {
           resultado = "Não é possível dividir por zero"
         }
         else {          
-          resultado = this.removeZeroDireita(this.calcular(this.valor1, this.valor2, this.operacao).toFixed(5));          
+          const valor = this.calcular(this.valor1, this.valor2, this.operacao)
+          resultado = this.removeZeroDireita(valor.toFixed(5));          
         }
         this.limpar = "S";
         this.operacao = "";
@@ -166,7 +168,9 @@ export default {
     // SE PRECISAR INICIALIZAR ALGO QUANDO A PAGINAR CARREGAR
     this.texto = "0",
     this.limpar = "S"
-  }
+  },
+
+  components: {}
 }
 </script>
 <style scoped>
