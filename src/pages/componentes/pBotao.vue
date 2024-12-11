@@ -3,7 +3,6 @@
     <q-btn
       :label="etiqueta"
       :color="cor"
-      @click="clique"
     />
   </div>
 </template>

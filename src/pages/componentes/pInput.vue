@@ -1,43 +1,23 @@
 <template>
   <div>
-    <q-btn
-      :label="etiqueta"
-      :color="cor"
-      @click="clique"
-    />
+    <q-input 
+      outlined 
+      rounded 
+      :label="etiqueta" 
+      v-model="vmodelo" 
+    />    
   </div>
 </template>
 
 <script>
 export default {
+  name:'pInput',
   props: {
     etiqueta: { type: String, required: true },
-    cor: { type: String, default: "primary" },
-    clique: { type: Function, default: () => {}},
+    vomodelo: { type: String, required: true },
+  
   },
-
-  data() {
-    return {
-
-    }
-  },
-
   methods: {
-
   }
 }
-
-
 </script>
-  
-export default defineComponent({
-  name: "Botao",
-  props: {
-   
-  },
-  methods: {
-    handleClick() {
-      this.$emit("click"); // Emite um evento para o pai quando o botão for clicado
-    },
-  },
-});

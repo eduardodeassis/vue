@@ -1,6 +1,11 @@
 <template>
   <q-page>
     <q-card>
+      <q-card-section>
+        <q-input v-model="txtnome" /><br><br>
+        <q-btn label="7" type="button" color="primary" size="lg" @click="digito('7')" class="botao-padrao" />&nbsp;
+      </q-card-section>
+
       <q-card-section> 
         <h4>Calculadora</h4> 
       
@@ -26,12 +31,7 @@
         <q-btn label="=" type="button" color="primary" size="lg" @click="operador('=')" class="botao-padrao-2x2" />
         
         
-      </q-card-section>
-
-      <q-card-section>        
-        <pInput etiqueta="Nome:" modelo="nome" class="meu-input"/><br><br>          
-        <q-btn label="7" type="button" color="primary" size="lg" @click="digito('7')" class="botao-padrao" />&nbsp;
-      </q-card-section>
+      </q-card-section>    
         
     </q-card>
 
@@ -39,9 +39,10 @@
 </template>
 
 <script>
-import pInput from './componentes/pInput.vue'
 // import PBotao from './componentes/pBotao.vue'
 export default {
+
+
   name: 'CalcularadoraPage',
   data () {
     return {
@@ -53,7 +54,7 @@ export default {
        operacao: "",
        limpar: "S",
        tmp: "",
-       nome: ""
+       txtnome: ""
     }
   },
 
@@ -171,7 +172,7 @@ export default {
     this.limpar = "S"
   },
 
-  components: {PInput}
+  components: {}
 }
 </script>
 <style scoped>
@@ -186,6 +187,4 @@ export default {
   width: 107px; 
   height: 50px;
 }
-.meu-input { width: 5
-00px; height: 40px; }
 </style>
